@@ -8,7 +8,10 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(public angularFireAuth: AngularFireAuth) {}
+  isLoggedIn: boolean;
+  constructor(public angularFireAuth: AngularFireAuth) {
+    this.isLoggedIn = false;
+  }
 
   signUp(email: string, password: string): Observable<any> {
     return from(
@@ -22,7 +25,6 @@ export class AuthService {
   }
 
   signIn(email: string, password: string): Observable<any> {
-    console.log('email', email);
     return from(
       this.angularFireAuth.signInWithEmailAndPassword(email, password)
     ).pipe(
@@ -30,5 +32,9 @@ export class AuthService {
         throw error;
       })
     );
+  }
+
+  updateIsLoggedIn(isLoggedIn: boolean) {
+    this.isLoggedIn = isLoggedIn;
   }
 }

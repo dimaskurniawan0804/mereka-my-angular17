@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TodoRoutingModule } from './todo-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    TodoRoutingModule
-  ]
+  imports: [CommonModule, TodoRoutingModule],
 })
-export class TodoModule { }
+export class TodoModule {}

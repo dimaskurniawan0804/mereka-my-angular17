@@ -1,46 +1,58 @@
 <div class="login__page">
   <div class="login__page__wrapper">
     <p>Login</p>
-    <mat-form-field
-      class="example-full-width"
-      appearance="outline"
-      floatLabel="always"
-    >
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        type="text"
-        [(ngModel)]="email"
-        placeholder="input your email"
-      />
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="email = ''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field
-      class="example-full-width"
-      appearance="outline"
-      floatLabel="always"
-    >
-      <mat-label>Password</mat-label>
-      <input
-        matInput
-        type="password"
-        nbInput
-        [(ngModel)]="password"
-        placeholder="input your password"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
+    <form [formGroup]="userForm" class="login__page__wrapper__form">
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        floatLabel="always"
       >
-        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-      </button>
-    </mat-form-field>
-    <button (click)="submitLogin()" mat-flat-button color="primary">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="email"
+          placeholder="input your email"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="removeEmail()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          nbInput
+          formControlName="password"
+          placeholder="input your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+    <button
+      (click)="submitLogin()"
+      mat-flat-button
+      color="primary"
+      [disabled]="disableSubmit"
+    >
       Submit
     </button>
   </div>

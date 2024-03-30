@@ -12,6 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     importProvidersFrom([
       provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    ]), provideAnimationsAsync(),
+    ]),
+    provideAnimationsAsync(),
   ],
 };
