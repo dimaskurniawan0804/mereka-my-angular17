@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Todo } from '../../../services/todo-service/todo.service';
 
 @Component({
   selector: 'app-todo',
@@ -9,14 +10,24 @@ export class TodoComponent {
   isOpenDetail: boolean;
   isLoadingTodo: boolean;
   showContent: string;
+  selectedTodo: Todo;
+
   constructor() {
     this.isOpenDetail = false;
     this.isLoadingTodo = true;
     this.showContent = 'list';
+    this.selectedTodo = {
+      id: '',
+      title: '',
+      description: '',
+      is_done: false,
+      created_at: new Date(),
+      updated_at: new Date(),
+      user_uid: '',
+    };
   }
 
   changeLoadStatus(event: any) {
-    console.log(event);
     if (event) {
       this.isLoadingTodo = false;
     }
@@ -32,5 +43,11 @@ export class TodoComponent {
 
   logout() {
     //
+  }
+
+  receiveSelectedTodoFromList(todo: Todo) {
+    this.selectedTodo = todo;
+    // this.isOpenDetail = true;
+    this.showContent = 'form';
   }
 }

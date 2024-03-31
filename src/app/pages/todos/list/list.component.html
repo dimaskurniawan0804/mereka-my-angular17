@@ -1,5 +1,8 @@
 <div *ngFor="let todo of todos">
-  <div class="todo__list">
+  <div
+    class="todo__list"
+    [style]="{ 'border-color': todo.is_done ? 'rgb(64, 176, 64)' : 'red' }"
+  >
     <div class="todo__list__start">
       <button
         matTooltip="Delete this todo"
@@ -10,7 +13,10 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
-      <div class="todo__list__start__content">
+      <div
+        class="todo__list__start__content"
+        (click)="selectTodoDetail(todo.id)"
+      >
         <div>
           {{ todo.title }}
         </div>

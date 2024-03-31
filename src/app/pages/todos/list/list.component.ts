@@ -14,14 +14,26 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 })
 export class ListComponent implements OnInit {
   todos: Todo[];
+  selectedTodo: Todo;
 
   @Output() emitLoadTodo = new EventEmitter<string>();
+  @Output() emitSelectedTodo = new EventEmitter<Todo>();
+
   constructor(
     private todoService: TodoService,
     private cookieService: SsrCookieService,
     private snackbar: MatSnackBar
   ) {
     this.todos = [];
+    this.selectedTodo = {
+      id: '',
+      title: '',
+      description: '',
+      is_done: false,
+      created_at: new Date(),
+      updated_at: new Date(),
+      user_uid: '',
+    };
   }
 
   ngOnInit(): void {
@@ -80,5 +92,11 @@ export class ListComponent implements OnInit {
       updated_at: new Date(),
     };
     this.todoService.updateTodoStatus(payload);
+  }
+
+  selectTodoDetail(id: string) {
+    const findTodo = this.todos.filter((el) => el.id === id);
+    this.selectedTodo = findTodo[0];
+    this.emitSelectedTodo.emit(findTodo[0]);
   }
 }
