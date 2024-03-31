@@ -1,0 +1,37 @@
+<div>
+  <form [formGroup]="todoForm" class="todo__form">
+    <mat-form-field
+      class="example-full-width"
+      appearance="outline"
+      floatLabel="always"
+    >
+      <mat-label>Title</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="title"
+        placeholder="input your title"
+      />
+    </mat-form-field>
+    <mat-form-field
+      class="example-full-width"
+      appearance="outline"
+      floatLabel="always"
+    >
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="input your description"
+      ></textarea>
+    </mat-form-field>
+  </form>
+  <button
+    (click)="submitForm('create')"
+    mat-flat-button
+    color="primary"
+    [disabled]="disableSubmit"
+  >
+    Submit
+  </button>
+</div>

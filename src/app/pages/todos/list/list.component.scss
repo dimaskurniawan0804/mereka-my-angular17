@@ -1,0 +1,38 @@
+$button-success: rgb(64, 176, 64);
+$button-danger: rgb(206, 44, 44);
+
+.button-success {
+  background-color: $button-success;
+}
+
+.button-danger {
+  background-color: $button-danger;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap");
+p {
+  font-family: "Happy Monkey", system-ui;
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  &__list {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    justify-content: space-between;
+    &__start {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      &__content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}

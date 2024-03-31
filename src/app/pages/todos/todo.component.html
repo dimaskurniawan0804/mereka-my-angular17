@@ -1,1 +1,57 @@
-<p>todo works!</p>
+<div class="todo__page">
+  <mat-spinner *ngIf="isLoadingTodo"></mat-spinner>
+  <div
+    [style.display]="!isLoadingTodo ? '' : 'none'"
+    class="todo__page__content"
+  >
+    <!--HEADER-->
+    <div class="todo__page__content__header">
+      <div class="todo__page__content__header__left">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/6348/6348058.png"
+          alt=""
+          style="width: 80px; height: 80px"
+        />
+        <div class="todo__page__content__header__left__text">
+          <p>TODO LIST</p>
+          <p>Create your list</p>
+        </div>
+      </div>
+      <div class="todo__page__content__header__right">yaha right</div>
+    </div>
+    <!--TAB-->
+    <div class="todo__page__content__tab">
+      <div class="todo__page__content__tab__start">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="changeShowContent('list')"
+        >
+          List
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="changeShowContent('form')"
+        >
+          New ToDo
+        </button>
+      </div>
+      <div class="todo__page__content__tab__end">
+        <button mat-mini-fab color="primary" matTooltip="logout">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+    <!--LIST-->
+    <app-list
+      class="todo__page__content__list"
+      (emitLoadTodo)="changeLoadStatus($event)"
+      *ngIf="showContent === 'list'"
+    ></app-list>
+    <app-form
+      *ngIf="showContent === 'form'"
+      class="todo__page__content__list"
+    ></app-form>
+  </div>
+</div>

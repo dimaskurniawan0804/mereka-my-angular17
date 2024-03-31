@@ -1,0 +1,34 @@
+<div *ngFor="let todo of todos">
+  <div class="todo__list">
+    <div class="todo__list__start">
+      <button
+        matTooltip="Delete this todo"
+        mat-mini-fab
+        color="warn"
+        aria-label="Example icon button with a home icon"
+        (click)="deleteTodoById(todo.id)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <div class="todo__list__start__content">
+        <div>
+          {{ todo.title }}
+        </div>
+        <small style="font-size: 12px">{{
+          todo.is_done ? "Complete" : "Uncomplete"
+        }}</small>
+      </div>
+    </div>
+    <button
+      [matTooltip]="
+        todo.is_done ? 'Change to uncomplete' : 'Change to complete'
+      "
+      mat-mini-fab
+      [class]="!todo.is_done ? 'button-success' : 'button-danger'"
+      aria-label="Example icon button with a home icon"
+      (click)="updateTodoStatus(!todo.is_done, todo.id)"
+    >
+      <mat-icon>{{ !todo.is_done ? "done" : "close" }}</mat-icon>
+    </button>
+  </div>
+</div>
