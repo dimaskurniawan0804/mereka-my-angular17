@@ -1,7 +1,9 @@
 <div *ngFor="let todo of todos">
   <div
     class="todo__list"
-    [style]="{ 'border-color': todo.is_done ? 'rgb(64, 176, 64)' : 'red' }"
+    [style]="{
+      'border-color': todo.is_done ? 'rgba(36, 215, 16, 0.847)' : 'red'
+    }"
   >
     <div class="todo__list__start">
       <button

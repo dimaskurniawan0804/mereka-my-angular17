@@ -32,6 +32,11 @@ p {
       &__content {
         display: flex;
         flex-direction: column;
+        flex-direction: column;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100px;
       }
     }
   }

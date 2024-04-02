@@ -1,1 +1,84 @@
-<p>register works!</p>
+<div class="register__page">
+  <div class="register__page__wrapper">
+    <p>Register</p>
+    <form [formGroup]="userForm" class="register__page__wrapper__form">
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>Display Name</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="displayname"
+          placeholder="input your displayname"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="removeField('displayname')"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="email"
+          placeholder="input your email"
+        />
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="removeField('email')"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        floatLabel="always"
+      >
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          nbInput
+          formControlName="password"
+          placeholder="input your password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+    <p>
+      Don't have an account yet?
+      <span class="sign-in" (click)="directToLogin()">Sign In</span>
+    </p>
+    <button
+      (click)="submitRegister()"
+      mat-flat-button
+      color="primary"
+      [disabled]="disableSubmit"
+    >
+      Submit
+    </button>
+  </div>
+</div>

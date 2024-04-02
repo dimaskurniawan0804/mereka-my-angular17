@@ -5,7 +5,10 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: yellowgreen;
+    background-image: url("https://t3.ftcdn.net/jpg/05/69/72/02/360_F_569720237_58rhoQoMjxyB0QCeXQK0OVUA0qNogTmq.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     &__wrapper {
       display: flex;
       flex-direction: column;
@@ -21,6 +24,13 @@
       &__form {
         display: flex;
         flex-direction: column;
+      }
+
+      span:hover {
+        cursor: pointer;
+        color: rgb(55, 55, 255);
+        text-decoration: underline;
+        font-weight: 700;
       }
     }
   }

@@ -94,6 +94,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     return this.userForm.controls;
   }
 
+  directToRegister() {
+    this.navigationService.navigateByUrlTree(['/register']);
+  }
+
   removeEmail() {
     this.f['email'].setValue('');
   }
