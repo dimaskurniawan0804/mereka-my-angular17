@@ -1,4 +1,4 @@
-import { NavigationService } from './../../services/navigation/navigation.service';
+import { NavigationService } from '../../services/navigation-service/navigation.service';
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';

@@ -11,6 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ListModule } from './list/list.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormModule } from './form/form.module';
+import { NavigationService } from '../../../services/navigation-service/navigation.service';
 @NgModule({
   declarations: [TodoComponent],
   imports: [
@@ -27,5 +28,6 @@ import { FormModule } from './form/form.module';
     MatProgressSpinnerModule,
     FormModule,
   ],
+  providers: [NavigationService],
 })
 export class TodoModule {}

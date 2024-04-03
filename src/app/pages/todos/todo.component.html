@@ -20,6 +20,7 @@
       <div class="todo__page__content__header__right"></div>
     </div>
     <!--TAB-->
+    @if(!isEmptyList){
     <div class="todo__page__content__tab">
       <div class="todo__page__content__tab__start">
         <button
@@ -38,17 +39,42 @@
         </button>
       </div>
       <div class="todo__page__content__tab__end">
-        <button mat-mini-fab color="primary" matTooltip="logout">
+        <button
+          mat-mini-fab
+          color="primary"
+          matTooltip="logout"
+          (click)="logout()"
+        >
           <mat-icon>logout</mat-icon>
         </button>
       </div>
     </div>
+    }
     <!--LIST-->
+    @if(isEmptyList && showContent === 'list'){
+    <div class="todo__page__content__list__empty">
+      <p>You don't have any ToDo</p>
+      <div>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="changeShowContent('form')"
+        >
+          New ToDo
+        </button>
+        <button mat-flat-button color="primary" (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+    }
     <app-list
       *ngIf="showContent === 'list'"
       class="todo__page__content__list"
+      [style]="isEmptyList ? 'display: none' : ''"
       (emitLoadTodo)="changeLoadStatus($event)"
       (emitSelectedTodo)="receiveSelectedTodoFromList($event)"
+      (emitListStatus)="isEmptyList = $event"
     ></app-list>
     <app-form
       *ngIf="showContent === 'form'"

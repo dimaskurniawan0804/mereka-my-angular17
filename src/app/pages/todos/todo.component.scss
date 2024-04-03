@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url("https://t3.ftcdn.net/jpg/05/69/72/02/360_F_569720237_58rhoQoMjxyB0QCeXQK0OVUA0qNogTmq.jpg");
+    background-image: url("https://images.pond5.com/planet-cartoon-space-animation-background-footage-090107031_prevstill.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,12 +16,12 @@
       align-items: center;
       padding: 16px;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.48);
       border-radius: 16px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(6.7px);
+      -webkit-backdrop-filter: blur(6.7px);
+      border: 1px solid rgba(255, 255, 255, 1);
       &__header {
         display: flex;
         flex-direction: row;
@@ -35,6 +35,7 @@
             font-size: 18px;
             font-weight: bold;
             display: flex;
+            flex-direction: column;
             p {
               margin-bottom: 0;
             }
@@ -65,6 +66,18 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        &__empty {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          div {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+          }
+        }
       }
     }
   }

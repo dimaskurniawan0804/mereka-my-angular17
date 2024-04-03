@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Todo } from '../../../services/todo-service/todo.service';
-
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { NavigationService } from '../../../services/navigation-service/navigation.service';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -11,8 +12,12 @@ export class TodoComponent {
   isLoadingTodo: boolean;
   showContent: string;
   selectedTodo: Todo;
+  isEmptyList: boolean;
 
-  constructor() {
+  constructor(
+    private cookieService: SsrCookieService,
+    private navigationService: NavigationService
+  ) {
     this.isOpenDetail = false;
     this.isLoadingTodo = true;
     this.showContent = 'list';
@@ -25,6 +30,7 @@ export class TodoComponent {
       updated_at: new Date(),
       user_uid: '',
     };
+    this.isEmptyList = false;
   }
 
   changeLoadStatus(event: any) {
@@ -37,12 +43,10 @@ export class TodoComponent {
     this.showContent = contentToShow;
   }
 
-  openDetail(todoId: string, action: string) {
-    //
-  }
-
   logout() {
-    //
+    this.cookieService.delete('user_uid');
+    this.cookieService.delete('user_displayName');
+    this.navigationService.navigateByUrlTree(['/login']);
   }
 
   receiveSelectedTodoFromList(todo: Todo) {

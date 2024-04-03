@@ -7,21 +7,10 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class SignInService {
   isLoggedIn: boolean;
   constructor(public angularFireAuth: AngularFireAuth) {
     this.isLoggedIn = false;
-  }
-
-  signUp(email: string, password: string): Observable<any> {
-    return from(
-      this.angularFireAuth.createUserWithEmailAndPassword(email, password)
-    ).pipe(
-      catchError((error) => {
-        window.alert(error.message);
-        throw error;
-      })
-    );
   }
 
   signIn(email: string, password: string): Observable<any> {

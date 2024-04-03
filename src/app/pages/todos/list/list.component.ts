@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   TodoService,
   Todo,
@@ -6,18 +13,22 @@ import {
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   todos: Todo[];
   selectedTodo: Todo;
+  snackBarSubs: Subscription;
+  isEmptyList: boolean;
 
   @Output() emitLoadTodo = new EventEmitter<string>();
   @Output() emitSelectedTodo = new EventEmitter<Todo>();
+  @Output() emitListStatus = new EventEmitter<boolean>();
 
   constructor(
     private todoService: TodoService,
@@ -34,10 +45,16 @@ export class ListComponent implements OnInit {
       updated_at: new Date(),
       user_uid: '',
     };
+    this.snackBarSubs = new Subscription();
+    this.isEmptyList = false;
   }
 
   ngOnInit(): void {
     this.getTodo();
+  }
+
+  ngOnDestroy(): void {
+    this.snackBarSubs.unsubscribe();
   }
 
   openSnackBar(message: string, action: string, duration: number = 2000) {
@@ -46,10 +63,12 @@ export class ListComponent implements OnInit {
       config.verticalPosition = 'top';
       config.duration = duration;
       let snackBar = this.snackbar.open(message, action, config);
-      snackBar.afterDismissed().subscribe({
-        next: () => resolve(''),
-        complete: () => resolve(''),
-      });
+      this.snackBarSubs.add(
+        snackBar.afterDismissed().subscribe({
+          next: () => resolve(''),
+          complete: () => resolve(''),
+        })
+      );
     });
   }
 
@@ -57,8 +76,12 @@ export class ListComponent implements OnInit {
     this.todoService
       .getTodos(this.cookieService.get('user_uid') ?? '')
       .subscribe((todos) => {
+        console.log(this.todos.length);
         this.todos = todos;
         this.emitLoadTodo.emit('false');
+        if (this.todos.length === 0) {
+          this.emitListStatus.emit(true);
+        }
       });
   }
 
@@ -75,8 +98,7 @@ export class ListComponent implements OnInit {
 
     this.todoService.addTodo(payload).then(() => {
       this.openSnackBar('Success create new todo', 'ok!', 2000).then(() => {
-        // this.emitChangeTab();
-        // this.isEdit = false;
+        this.getTodo();
       });
     });
   }

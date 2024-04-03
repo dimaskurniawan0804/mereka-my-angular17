@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
@@ -26,10 +27,11 @@ import {
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
-export class FormComponent implements OnInit, OnChanges {
+export class FormComponent implements OnInit, OnChanges, OnDestroy {
   formChangesSubs: Subscription;
   disableSubmit: boolean;
   todoForm: UntypedFormGroup;
+  snackBarSubs: Subscription;
 
   @Input() selectedTodo: Todo;
 
@@ -64,9 +66,15 @@ export class FormComponent implements OnInit, OnChanges {
       updated_at: new Date(),
       user_uid: '',
     };
+    this.snackBarSubs = new Subscription();
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.formChangesSubs.unsubscribe();
+    this.snackBarSubs.unsubscribe();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedTodo']) {
@@ -83,10 +91,12 @@ export class FormComponent implements OnInit, OnChanges {
       config.verticalPosition = 'top';
       config.duration = duration;
       let snackBar = this.snackbar.open(message, action, config);
-      snackBar.afterDismissed().subscribe({
-        next: () => resolve(''),
-        complete: () => resolve(''),
-      });
+      this.snackBarSubs.add(
+        snackBar.afterDismissed().subscribe({
+          next: () => resolve(''),
+          complete: () => resolve(''),
+        })
+      );
     });
   }
 

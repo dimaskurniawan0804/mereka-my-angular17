@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../../../../services/auth.service';
-import { NavigationService } from '../../../../services/navigation/navigation.service';
+import { NavigationService } from '../../../../services/navigation-service/navigation.service';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import {
@@ -9,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SignInService } from '../../../../services/auth-service/signIn.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,12 +21,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   userForm: UntypedFormGroup;
   disableSubmit: boolean;
   formChangesSubs: Subscription;
+  signInSubs: Subscription;
+  snackBarSubs: Subscription;
   constructor(
-    private authService: AuthService,
     private navigationService: NavigationService,
     private cookieService: SsrCookieService,
     private snackbar: MatSnackBar,
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
+    private signInService: SignInService
   ) {
     this.email = '';
     this.password = '';
@@ -43,12 +45,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.disableSubmit = true;
       }
     });
+    this.signInSubs = new Subscription();
+    this.snackBarSubs = new Subscription();
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy() {
     this.formChangesSubs.unsubscribe();
+    this.signInSubs.unsubscribe();
+    this.snackBarSubs.unsubscribe();
   }
 
   openSnackBar(message: string, action: string, duration: number = 2000) {
@@ -57,10 +63,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       config.verticalPosition = 'top';
       config.duration = duration;
       let snackBar = this.snackbar.open(message, action, config);
-      snackBar.afterDismissed().subscribe({
-        next: () => resolve(''),
-        complete: () => resolve(''),
-      });
+      this.snackBarSubs.add(
+        snackBar.afterDismissed().subscribe({
+          next: () => resolve(''),
+          complete: () => resolve(''),
+        })
+      );
     });
   }
 
@@ -70,11 +78,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     const passwordControl = this.userForm.get('password');
     const password = passwordControl ? passwordControl.value : '';
 
-    this.authService.signIn(email, password).subscribe({
+    this.signInSubs = this.signInService.signIn(email, password).subscribe({
       next: (res) => {
         console.log(res);
         this.cookieService.set('user_uid', res.user._delegate.uid);
-        this.authService.updateIsLoggedIn(true);
+        this.signInService.updateIsLoggedIn(true);
         this.cookieService.set(
           'user_displayName',
           res.user._delegate.displayName

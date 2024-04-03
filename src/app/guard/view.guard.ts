@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { NavigationService } from '../../services/navigation/navigation.service';
+import { NavigationService } from '../../services/navigation-service/navigation.service';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @Injectable({
